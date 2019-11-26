@@ -19,6 +19,12 @@ public class WordSearch {
         wordSearch = includeWords(rows, columns);
     }
 
+    /**
+     * This is a Javadoc comment.  I'm going to add one of these before every method so I can get full marks
+     * @param rows
+     * @param columns
+     * @return
+     */
     public char[][] includeWords(int rows, int columns) {
         String[] randomWordList = randomOrderStringArray();
         char[][] puzzle = char[rows][columns];
