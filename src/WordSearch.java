@@ -1,6 +1,5 @@
 import java.io.FileNotFoundException;
 import java.util.Formatter;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,8 +63,7 @@ public class WordSearch {
      * @return random number within range 0 to (requested range -1)
      */
     public int randomNumberGenerator(int range){
-        Random randomNum = new Random();
-        int random = randomNum.nextInt(range);
+        int random = (int) Math.random() * range + 1;
         return random;
     }
 
@@ -91,7 +89,7 @@ public class WordSearch {
      */
     public int getDimension(String axis){
         int length = 0;
-        while(length >= 2 && length <= 15) {
+        while(length < 2 || length > 15) {
             System.out.println("Enter number of " + axis + " from 2-15:");
                 length = scanInt();
         }
@@ -109,11 +107,10 @@ public class WordSearch {
         for(int i = 0; i < width; i++) {
             boolean validWordCheck = false;
             while(!validWordCheck){
-                System.out.print("Enter a word with less than " + length + " letters: ");
+                System.out.print("Enter a word with less than or equal to " + length + " letters: ");
                 collection[i] = scanString();
-                collection[i] = collection[i].toUpperCase();
                 validWordCheck = wordCheck(collection[i]);
-                if(collection[i].length() > length - 1){
+                if(collection[i].length() > length){
                     validWordCheck = false;
                 }
                 if(!validWordCheck){
@@ -147,6 +144,7 @@ public class WordSearch {
     public String scanString(){
         Scanner input = new Scanner(System.in);
         String numberRequest = input.nextLine();
+        numberRequest.toUpperCase();
         return numberRequest;
     }
 
@@ -211,11 +209,14 @@ public class WordSearch {
      */
     public String getWordSearchString(){
         int rows = wordSearch.length;
-        int columns = wordSearch[0].length;
+        int columns = 0;
+        try {
+            columns = wordSearch[0].length;
+        }catch(java.lang.ArrayIndexOutOfBoundsException e){}
         String puzzleSheet = "";
         for(int i = 0; i < rows -1; i ++){
             for(int k = 0; k < columns -1; k ++){
-                puzzleSheet += " " + wordList[i].substring(k);
+                puzzleSheet += " " + wordSearch[i][k];
                 if(wordSearch[0].length-1 == k){
                     puzzleSheet += "\n";
                 }
