@@ -4,6 +4,6 @@ public class WordSearchTest {
         WordSearch game = new WordSearch();
         System.out.println(game.getWordSearchString());
         System.out.println(game.WordsString());
-        //game.printToFile();
+        game.printToFile();
     }
 }

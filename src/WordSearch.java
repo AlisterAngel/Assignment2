@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.util.Formatter;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -16,27 +18,35 @@ public class WordSearch {
 
         wordList = getWords(rows, columns);
         wordSearch = fillGrid(rows, columns);
-        wordSearch = includeWords(rows, columns);
+        wordSearch = includeWords(columns);
     }
 
     /**
-     * This is a Javadoc comment.  I'm going to add one of these before every method so I can get full marks
-     * @param rows
+     * Adds the words from the list to the grid
      * @param columns
-     * @return
+     * @return puzzle
      */
-    public char[][] includeWords(int rows, int columns) {
+    public char[][] includeWords(int columns) {
         String[] randomWordList = randomOrderStringArray();
-        char[][] puzzle = char[rows][columns];
+        char[][] puzzle = wordSearch;
         for(int i = 0; i < randomWordList.length; i++){
-            int random = randomNumberGenerator(columns - randomWordList[i].length());
+            int offset = randomNumberGenerator(columns - randomWordList[i].length());
+            boolean reversed = randomBooleanGenerator();
             for(int k = 0; k < randomWordList[i].length(); k++) {
-
+                if(!reversed){
+                    puzzle[i][k + offset] = randomWordList[i].charAt(k);
+                }else{
+                    puzzle[i][randomWordList[i].length() - k - offset] = randomWordList[i].charAt(k);
+                }
             }
         }
         return puzzle;
     }
 
+    /**
+     *  randomly shifts the strings in the array
+     * @return the word list shuffled
+     */
     public String[] randomOrderStringArray(){
         String[] tempWordList = wordList;
         for (int i=0; i<tempWordList.length; i++) {
@@ -48,12 +58,37 @@ public class WordSearch {
         return tempWordList;
     }
 
+    /**
+     *  Gives random number within a range
+     * @param range
+     * @return random number within range 0 to (requested range -1)
+     */
     public int randomNumberGenerator(int range){
-        Random rgen = new Random();
-        int random = rgen.nextInt(range);
+        Random randomNum = new Random();
+        int random = randomNum.nextInt(range);
         return random;
     }
 
+    /**
+     * Gives a random two choice answer
+     * @return true or false
+     */
+    public boolean randomBooleanGenerator(){
+        int random = randomNumberGenerator(2);
+        boolean choice;
+        if(random == 1){
+            choice = false;
+        }else{
+            choice = true;
+        }
+        return choice;
+    }
+
+    /**
+     * asks for a length for a dimension or size
+     * @param axis
+     * @return integer from 2-15
+     */
     public int getDimension(String axis){
         int length = 0;
         while(length >= 2 && length <= 15) {
@@ -63,6 +98,12 @@ public class WordSearch {
         return length;
     }
 
+    /**
+     * ask for words
+     * @param width
+     * @param length
+     * @return array full of valid words
+     */
     public String[] getWords(int width, int length){
         String[] collection = new String[length];
         for(int i = 0; i < width; i++) {
@@ -82,24 +123,38 @@ public class WordSearch {
         }
         return collection;
     }
-    
+
+    /**
+     * checks and sees if int has been entered
+     * @return scans for valid int
+     */
     public int scanInt(){
         Scanner input = new Scanner(System.in);
         int numberRequest = -1;
         try {
             numberRequest = input.nextInt();
         } catch (java.util.InputMismatchException e) {
-            System.out.printf("Only integers are allowed\n");
+            System.out.print("Only integers are allowed\n");
         }
+        input.nextLine();
         return numberRequest;
     }
 
+    /**
+     * Scan for a string
+     * @return a valid string
+     */
     public String scanString(){
         Scanner input = new Scanner(System.in);
         String numberRequest = input.nextLine();
         return numberRequest;
     }
-    
+
+    /**
+     * checks to see if String is a valid word
+     * @param word
+     * @return true if valid
+     */
     public boolean wordCheck(String word){
         boolean check1 = specialCharacters(word);
         boolean check2 = numberCheck(word);
@@ -109,13 +164,23 @@ public class WordSearch {
         return true;
     }
 
+    /**
+     * Checks to see if any characters are not letters or numbers
+     * @param word
+     * @return true if no special characters
+     */
     public boolean specialCharacters(String word){
         Pattern specialCharactersList = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher checkSpecialCharacters = specialCharactersList.matcher(word);
-
+        System.out.print(checkSpecialCharacters + "\n");
         return checkSpecialCharacters.find();
     }
 
+    /**
+     * Checks to see if there is a number
+     * @param word
+     * @return flase if number exists
+     */
     public boolean numberCheck(String word){
         Pattern numberList = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
         Matcher checkNumbers = numberList.matcher(word);
@@ -123,6 +188,12 @@ public class WordSearch {
         return checkNumbers.find();
     }
 
+    /**
+     * fills grid with random letters
+     * @param rows
+     * @param columns
+     * @return grid filled with random letters
+     */
     public char[][] fillGrid(int rows, int columns){
         char[][] collection = new char[rows][columns];
         for(int i = 0; i < rows; i ++){
@@ -134,6 +205,10 @@ public class WordSearch {
         return collection;
     }
 
+    /**
+     * converts the wordsearch into a String
+     * @return string
+     */
     public String getWordSearchString(){
         int rows = wordSearch.length;
         int columns = wordSearch[0].length;
@@ -149,6 +224,10 @@ public class WordSearch {
         return puzzleSheet;
     }
 
+    /**
+     * Turns word list into a string
+     * @return String
+     */
     public String WordsString() {
         int rows = wordList.length;
         String wordset = "The words to find: \n";
@@ -158,4 +237,14 @@ public class WordSearch {
         return wordset;
     }
 
+    public void printToFile() {
+        Formatter outputFile;
+        try {
+            outputFile = new Formatter("WordSearch.txt");
+            outputFile.format(wordSearch + "\n");
+            outputFile.format(WordsString() + "\n");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
