@@ -30,14 +30,15 @@ public class WordSearch {
         String[] randomWordList = randomOrderStringArray();
         char[][] puzzle = wordSearch;
         for(int i = 0; i < randomWordList.length; i++){
-            int offset = randomNumberGenerator(columns - randomWordList[i].length());
+            int offset = randomNumberGenerator(columns - randomWordList[i].length() + 1);
             //System.out.println(offset);
+            //System.out.print(randomWordList[i] + "\n");
             boolean reversed = randomBooleanGenerator();
             for(int k = 0; k < randomWordList[i].length(); k++) {
                 if(!reversed){
                     puzzle[i][k + offset] = randomWordList[i].charAt(k);
                 }else{
-                    puzzle[i][randomWordList[i].length() - k - offset] = randomWordList[i].charAt(k);
+                    puzzle[i][puzzle[i].length - k - offset - 1] = randomWordList[i].charAt(k);
                 }
             }
         }
