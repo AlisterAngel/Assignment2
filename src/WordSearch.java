@@ -33,8 +33,7 @@ public class WordSearch {
             int offset = randomNumberGenerator(columns - randomWordList[i].length());
             //System.out.println(offset);
             boolean reversed = randomBooleanGenerator();
-
-        for(int k = 0; k < randomWordList[i].length(); k++) {
+            for(int k = 0; k < randomWordList[i].length(); k++) {
                 if(!reversed){
                     puzzle[i][k + offset] = randomWordList[i].charAt(k);
                 }else{
@@ -115,7 +114,7 @@ public class WordSearch {
                 System.out.print("Enter a word with less than or equal to " + length + " letters: ");
                 collection[i] = scanString();
                 validWordCheck = wordCheck(collection[i]);
-                if(collection[i].length() > length){
+                if(collection[i].length() > length || collection[i].length() < 1){
                     validWordCheck = false;
                 }
                 if(!validWordCheck){
