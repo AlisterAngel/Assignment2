@@ -49,7 +49,10 @@ public class WordSearch {
      * @return the word list shuffled
      */
     public String[] randomOrderStringArray(){
-        String[] tempWordList = wordList;
+        String[] tempWordList = new String[wordList.length];
+        for(int i=0; i<wordList.length; i++){
+            tempWordList[i] = wordList[i];
+        }
         for (int i=0; i<tempWordList.length; i++) {
             int randomPosition = randomNumberGenerator(tempWordList.length);
             String temp = tempWordList[i];
