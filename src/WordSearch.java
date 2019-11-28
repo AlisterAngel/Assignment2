@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.util.Formatter;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,8 +31,10 @@ public class WordSearch {
         char[][] puzzle = wordSearch;
         for(int i = 0; i < randomWordList.length; i++){
             int offset = randomNumberGenerator(columns - randomWordList[i].length());
+            //System.out.println(offset);
             boolean reversed = randomBooleanGenerator();
-            for(int k = 0; k < randomWordList[i].length(); k++) {
+
+        for(int k = 0; k < randomWordList[i].length(); k++) {
                 if(!reversed){
                     puzzle[i][k + offset] = randomWordList[i].charAt(k);
                 }else{
@@ -63,7 +66,9 @@ public class WordSearch {
      * @return random number within range 0 to (requested range -1)
      */
     public int randomNumberGenerator(int range){
-        int random = (int) Math.random() * range + 1;
+        Random randomNum = new Random();
+        int random = randomNum.nextInt(range);
+        //System.out.print(random);
         return random;
     }
 
@@ -143,9 +148,9 @@ public class WordSearch {
      */
     public String scanString(){
         Scanner input = new Scanner(System.in);
-        String numberRequest = input.nextLine();
-        numberRequest.toUpperCase();
-        return numberRequest;
+        String stringRequest = input.nextLine();
+        stringRequest = stringRequest.toUpperCase();
+        return stringRequest;
     }
 
     /**
@@ -170,7 +175,7 @@ public class WordSearch {
     public boolean specialCharacters(String word){
         Pattern specialCharactersList = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
         Matcher checkSpecialCharacters = specialCharactersList.matcher(word);
-        System.out.print(checkSpecialCharacters + "\n");
+        //System.out.print(checkSpecialCharacters + "\n");
         return checkSpecialCharacters.find();
     }
 
@@ -182,7 +187,6 @@ public class WordSearch {
     public boolean numberCheck(String word){
         Pattern numberList = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
         Matcher checkNumbers = numberList.matcher(word);
-
         return checkNumbers.find();
     }
 
@@ -214,8 +218,8 @@ public class WordSearch {
             columns = wordSearch[0].length;
         }catch(java.lang.ArrayIndexOutOfBoundsException e){}
         String puzzleSheet = "";
-        for(int i = 0; i < rows -1; i ++){
-            for(int k = 0; k < columns -1; k ++){
+        for(int i = 0; i < rows; i ++){
+            for(int k = 0; k < columns; k ++){
                 puzzleSheet += " " + wordSearch[i][k];
                 if(wordSearch[0].length-1 == k){
                     puzzleSheet += "\n";
@@ -232,7 +236,7 @@ public class WordSearch {
     public String WordsString() {
         int rows = wordList.length;
         String wordset = "The words to find: \n";
-        for(int i = 0; i < rows -1; i ++) {
+        for(int i = 0; i < rows; i ++) {
             wordset += wordList[i] + "\n";
         }
         return wordset;
