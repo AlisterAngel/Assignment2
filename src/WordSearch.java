@@ -176,7 +176,7 @@ public class WordSearch {
      * @return true if no special characters
      */
     public boolean specialCharacters(String word){
-        Pattern specialCharactersList = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Pattern specialCharactersList = Pattern.compile("[^a-z0-9]", Pattern.CASE_INSENSITIVE);
         Matcher checkSpecialCharacters = specialCharactersList.matcher(word);
         //System.out.print(checkSpecialCharacters + "\n");
         return checkSpecialCharacters.find();
