@@ -111,14 +111,14 @@ public class WordSearch {
      * @return array full of valid words
      */
     public String[] getWords(int width, int length){
-        String[] collection = new String[length];
+        String[] collection = new String[width];
         for(int i = 0; i < width; i++) {
             boolean validWordCheck = false;
             while(!validWordCheck){
                 System.out.print("Enter a word with less than or equal to " + length + " letters: ");
                 collection[i] = scanString();
                 validWordCheck = wordCheck(collection[i]);
-                if(collection[i].length() > length || collection[i].length() < 1){
+                if(collection[i].length() > length || collection[i].length() < 2){
                     validWordCheck = false;
                 }
                 if(!validWordCheck){
