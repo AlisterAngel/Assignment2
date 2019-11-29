@@ -152,7 +152,7 @@ public class WordSearch {
     public String scanString(){
         Scanner input = new Scanner(System.in);
         String stringRequest = input.nextLine();
-        stringRequest = stringRequest.toUpperCase();
+        stringRequest = stringRequest.toUpperCase().trim();
         return stringRequest;
     }
 
