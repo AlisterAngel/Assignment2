@@ -249,8 +249,9 @@ public class WordSearch {
         Formatter outputFile;
         try {
             outputFile = new Formatter("WordSearch.txt");
-            outputFile.format(wordSearch + "\n");
+            outputFile.format(getWordSearchString() + "\n");
             outputFile.format(WordsString() + "\n");
+            outputFile.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
